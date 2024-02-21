@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace InventorAddIn_Assignment
 {
@@ -18,28 +19,35 @@ namespace InventorAddIn_Assignment
         // Method..
         public static void exportToJPG()
         {
-            StandardAddInServer.m_inventorApplication.ActiveDocument.Update();
-            // Create a drawing document
-            DrawingDocument drawingDoc = StandardAddInServer.m_inventorApplication.Documents.Add(DocumentTypeEnum.kDrawingDocumentObject) as DrawingDocument;
+            try
+            {
+                StandardAddInServer.m_inventorApplication.ActiveDocument.Update();
+                // Create a drawing document
+                DrawingDocument drawingDoc = StandardAddInServer.m_inventorApplication.Documents.Add(DocumentTypeEnum.kDrawingDocumentObject) as DrawingDocument;
 
-            // Get the active sheet of the drawing document
-            Sheet activeSheet = drawingDoc.ActiveSheet;
+                // Get the active sheet of the drawing document
+                Sheet activeSheet = drawingDoc.ActiveSheet;
 
-            // Opening part document.
-            PartDocument partDoc = (PartDocument)StandardAddInServer.m_inventorApplication.Documents.Open(@"D:\Incubation\Tutorials\newPart.ipt", false);
-
-
-            // Create a base view of the part on the sheet
-            DrawingView drawingView = activeSheet.DrawingViews.AddBaseView((_Document)(partDoc as Document),
-                StandardAddInServer.m_inventorApplication.TransientGeometry.CreatePoint2d(10, 10),
-                1,
-                ViewOrientationTypeEnum.kIsoTopRightViewOrientation,
-                DrawingViewStyleEnum.kHiddenLineRemovedDrawingViewStyle);
+                // Opening part document.
+                PartDocument partDoc = (PartDocument)StandardAddInServer.m_inventorApplication.Documents.Open(@"D:\Incubation\Tutorials\newPart.ipt", false);
 
 
-            View view = StandardAddInServer.m_inventorApplication.ActiveView;
+                // Create a base view of the part on the sheet
+                DrawingView drawingView = activeSheet.DrawingViews.AddBaseView((_Document)(partDoc as Document),
+                    StandardAddInServer.m_inventorApplication.TransientGeometry.CreatePoint2d(10, 10),
+                    1,
+                    ViewOrientationTypeEnum.kIsoTopRightViewOrientation,
+                    DrawingViewStyleEnum.kHiddenLineRemovedDrawingViewStyle);
 
-            view.SaveAsBitmap(@"D:\Incubation\Tutorials\DrawingImage.jpg", 0, 0);
+
+                Inventor.View view = StandardAddInServer.m_inventorApplication.ActiveView;
+
+                view.SaveAsBitmap(@"D:\Incubation\Tutorials\DrawingImage.jpg", 0, 0);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
 
         }
     }

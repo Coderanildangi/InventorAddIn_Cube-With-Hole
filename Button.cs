@@ -6,6 +6,8 @@ using System.Runtime.Remoting.Contexts;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Drawing;
+using Microsoft.VisualBasic.Compatibility.VB6;
 
 namespace InventorAddIn_Assignment
 {
@@ -21,33 +23,59 @@ namespace InventorAddIn_Assignment
         // Method to add Button.
         public void AddButton()
         {
-            application = StandardAddInServer.m_inventorApplication;
-            UserInterfaceManager uiMgr = StandardAddInServer.m_inventorApplication.UserInterfaceManager;
+            try
+            {
+                application = StandardAddInServer.m_inventorApplication;
+                UserInterfaceManager uiMgr = StandardAddInServer.m_inventorApplication.UserInterfaceManager;
 
-            // Create a button definition
-            m_buttonDefinition = StandardAddInServer.m_inventorApplication.CommandManager.ControlDefinitions.AddButtonDefinition(
-                "PartToJPG", "PartToJPGCmd", CommandTypesEnum.kNonShapeEditCmdType, "{29c7d6b5-88fe-4052-9b8b-a8fd3f54df31}", "Creates part model and export its drawing to JPG file");
+                //load image icons for UI items
+                string filename = @"../../Resources/icon.ico";
 
-            // Get the Ribbon from the mentioned Document.
-            Ribbon toolsRibbon = uiMgr.Ribbons["Part"];
+                Icon commandIcon = new Icon(filename);
 
-            //Get the tools tab
-            RibbonTab toolsTab = toolsRibbon.RibbonTabs["id_TabTools"];
+                // Standard Icon.
+                Icon standardIcon = new Icon(commandIcon, 16, 16);
 
-            // Get the tools panel within the tools tab
-            RibbonPanel toolsPanel = toolsTab.RibbonPanels["id_PanelP_ShowPanels"];
+                // Large Icon.
+                Icon largeIcon = new Icon(commandIcon, 32, 32);
 
-            // Add the button to the panel
-            CommandControl commandControl = toolsPanel.CommandControls.AddButton(
-                m_buttonDefinition,
-                false,
-                true,
-                "",
-                false);
+                //Image icon = Image.FromFile(@"../../Resources/cube1.png");
 
-            // Wire up the event handler
-            //m_helloWorldButtonEventHandler = new EventHandler(HelloWorldButton_OnExecute);
-            m_buttonDefinition.OnExecute += ButtonDefinition_OnExecute;
+                stdole.IPictureDisp standardIconIPictureDisp;
+                standardIconIPictureDisp = (stdole.IPictureDisp)Support.IconToIPicture(standardIcon);
+
+                stdole.IPictureDisp largeIconIPictureDisp;
+                largeIconIPictureDisp = (stdole.IPictureDisp)Support.IconToIPicture(largeIcon);
+
+                // Create a button definition
+                m_buttonDefinition = StandardAddInServer.m_inventorApplication.CommandManager.ControlDefinitions.AddButtonDefinition(
+                    "PartToJPG", "PartToJPGCmd", CommandTypesEnum.kNonShapeEditCmdType, "{29c7d6b5-88fe-4052-9b8b-a8fd3f54df31}", "Creates part model and export its drawing to JPG file", "Creates cube with hole" , standardIconIPictureDisp, largeIconIPictureDisp, ButtonDisplayEnum.kDisplayTextInLearningMode);
+
+                // Get the Ribbon from the mentioned Document.
+                Ribbon toolsRibbon = uiMgr.Ribbons["Part"];
+
+                //Get the tools tab
+                RibbonTab toolsTab = toolsRibbon.RibbonTabs["id_TabTools"];
+
+                // Get the tools panel within the tools tab
+                RibbonPanel toolsPanel = toolsTab.RibbonPanels["id_PanelP_ShowPanels"];
+
+                // Add the button to the panel
+                CommandControl commandControl = toolsPanel.CommandControls.AddButton(
+                    m_buttonDefinition,
+                    false,
+                    true,
+                    "",
+                    false);
+
+                // Wire up the event handler
+                m_buttonDefinition.OnExecute += ButtonDefinition_OnExecute;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+            
         }
 
         private void ButtonDefinition_OnExecute(NameValueMap context)
