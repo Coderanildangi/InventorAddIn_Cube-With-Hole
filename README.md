@@ -40,6 +40,6 @@ This project is licensed under the [CCtech License](LICENSE).
 - [Your Name](https://github.com/yourusername)
 
 ## Output
-- [text](../newPart.ipt)
+- ![alt text](<Screenshot (63).png>)
 - ![alt text](DrawingImage.jpg)
 
