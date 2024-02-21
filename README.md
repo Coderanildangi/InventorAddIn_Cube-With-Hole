@@ -37,7 +37,7 @@ Contributions are welcome! Please feel free to open a pull request or submit an 
 This project is licensed under the [CCtech License](LICENSE).
 
 ## Authors
-- [Your Name](https://github.com/yourusername)
+- [Anil Dangi](https://github.com/Coderanildangi)
 
 ## Output
 - ![alt text](<Screenshot (63).png>)
