@@ -9,14 +9,18 @@ using System.Windows.Forms;
 
 namespace InventorAddIn_Assignment
 {
+    /// <summary>
+    /// Represents a class for extruding a part within Autodesk Inventor.
+    /// </summary>
     public class ExtrudePart
     {
         // Constructor..
-        public ExtrudePart()
-        {
+        public ExtrudePart()  {}
 
-        }
-
+        /// <summary>
+        /// Extrudes a part within Autodesk Inventor.
+        /// It extrudes a cube and hole in center of one of the face.
+        /// </summary>
         public void extrude_Part()
         {
             try
@@ -49,7 +53,6 @@ namespace InventorAddIn_Assignment
 
                 // Saving part model.
                 partDoc.SaveAs(@"D:\Incubation\Tutorials\newPart.ipt", false);
-
                 partDoc.Update();
 
                 // Calling ExportToJPG Method.
@@ -58,6 +61,8 @@ namespace InventorAddIn_Assignment
             catch(Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+                // Logging to txt file.
+                Logger.LogException(ex);
             }
             
         }

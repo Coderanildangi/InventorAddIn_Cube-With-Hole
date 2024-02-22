@@ -1,5 +1,4 @@
 ﻿using Inventor;
-using InventorAddIn_Assignment;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +8,17 @@ using System.Windows.Forms;
 
 namespace InventorAddIn_Assignment
 {
+    /// <summary>
+    /// Represents a class for exporting drawings to JPG format within Autodesk Inventor.
+    /// </summary>
     internal class ExportDrawingToJPG
     {
         // Constructor..
-        public ExportDrawingToJPG() 
-        {
-        }
+        public ExportDrawingToJPG() { }
 
-        // Method..
+        /// <summary>
+        /// Exports the active drawing document to JPG format.
+        /// </summary>
         public static void exportToJPG()
         {
             try
@@ -31,7 +33,6 @@ namespace InventorAddIn_Assignment
                 // Opening part document.
                 PartDocument partDoc = (PartDocument)StandardAddInServer.m_inventorApplication.Documents.Open(@"D:\Incubation\Tutorials\newPart.ipt", false);
 
-
                 // Create a base view of the part on the sheet
                 DrawingView drawingView = activeSheet.DrawingViews.AddBaseView((_Document)(partDoc as Document),
                     StandardAddInServer.m_inventorApplication.TransientGeometry.CreatePoint2d(10, 10),
@@ -39,14 +40,16 @@ namespace InventorAddIn_Assignment
                     ViewOrientationTypeEnum.kIsoTopRightViewOrientation,
                     DrawingViewStyleEnum.kHiddenLineRemovedDrawingViewStyle);
 
-
                 Inventor.View view = StandardAddInServer.m_inventorApplication.ActiveView;
 
+                // Saves Drawing to JPG file in given location.
                 view.SaveAsBitmap(@"D:\Incubation\Tutorials\DrawingImage.jpg", 0, 0);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                // Logging to txt file.
+                Logger.LogException(ex);
             }
 
         }

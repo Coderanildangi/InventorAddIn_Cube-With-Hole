@@ -106,6 +106,7 @@
     <Compile Include="Button.cs" />
     <Compile Include="ExportDrawingToJPG.cs" />
     <Compile Include="ExtrudePart.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="StandardAddInServer.cs">
       <SubType>Code</SubType>
     </Compile>

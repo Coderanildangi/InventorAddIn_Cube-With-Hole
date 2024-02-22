@@ -11,16 +11,20 @@ using Microsoft.VisualBasic.Compatibility.VB6;
 
 namespace InventorAddIn_Assignment
 {
+    /// <summary>
+    /// Represents a class for adding a custom button to the Autodesk Inventor user interface.
+    /// </summary>
     public class Button
     {
+        // Constructor.
         public Button() { }
-
 
         private static ButtonDefinition m_buttonDefinition;
         public Inventor.Application application;
 
-
-        // Method to add Button.
+        /// <summary>
+        /// Adds a custom button to the Autodesk Inventor user interface.
+        /// </summary>
         public void AddButton()
         {
             try
@@ -40,7 +44,6 @@ namespace InventorAddIn_Assignment
                 Icon largeIcon = new Icon(commandIcon, 32, 32);
 
                 //Image icon = Image.FromFile(@"../../Resources/cube1.png");
-
                 stdole.IPictureDisp standardIconIPictureDisp;
                 standardIconIPictureDisp = (stdole.IPictureDisp)Support.IconToIPicture(standardIcon);
 
@@ -49,7 +52,15 @@ namespace InventorAddIn_Assignment
 
                 // Create a button definition
                 m_buttonDefinition = StandardAddInServer.m_inventorApplication.CommandManager.ControlDefinitions.AddButtonDefinition(
-                    "PartToJPG", "PartToJPGCmd", CommandTypesEnum.kNonShapeEditCmdType, "{29c7d6b5-88fe-4052-9b8b-a8fd3f54df31}", "Creates part model and export its drawing to JPG file", "Creates cube with hole" , standardIconIPictureDisp, largeIconIPictureDisp, ButtonDisplayEnum.kDisplayTextInLearningMode);
+                    "PartToJPG", 
+                    "PartToJPGCmd", 
+                    CommandTypesEnum.kNonShapeEditCmdType, 
+                    "{29c7d6b5-88fe-4052-9b8b-a8fd3f54df31}", 
+                    "Creates part model and export its drawing to JPG file", 
+                    "Creates cube with hole" , 
+                    standardIconIPictureDisp, 
+                    largeIconIPictureDisp, 
+                    ButtonDisplayEnum.kDisplayTextInLearningMode);
 
                 // Get the Ribbon from the mentioned Document.
                 Ribbon toolsRibbon = uiMgr.Ribbons["Part"];
@@ -74,10 +85,16 @@ namespace InventorAddIn_Assignment
             catch(Exception ex)
             {
                 MessageBox.Show(ex.ToString());
+                // Logging to txt file.
+                Logger.LogException(ex);
             }
             
         }
 
+        /// <summary>
+        /// Event handler for when the custom button is executed.
+        /// </summary>
+        /// <param name="context">The context in which the event was triggered.</param>
         private void ButtonDefinition_OnExecute(NameValueMap context)
         {
             ExtrudePart extrude = new ExtrudePart();

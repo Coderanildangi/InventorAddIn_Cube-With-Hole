@@ -13,13 +13,10 @@ namespace InventorAddIn_Assignment
     [GuidAttribute("29c7d6b5-88fe-4052-9b8b-a8fd3f54df31")]
     public class StandardAddInServer : Inventor.ApplicationAddInServer
     {
-
         // Inventor application object.
         public static Inventor.Application m_inventorApplication;
 
-        public StandardAddInServer()
-        {
-        }
+        public StandardAddInServer() { }
 
         #region ApplicationAddInServer Members
 
@@ -74,8 +71,6 @@ namespace InventorAddIn_Assignment
                 return null;
             }
         }
-
         #endregion
-
     }
 }
